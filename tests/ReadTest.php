@@ -22,6 +22,20 @@ class ReadTest extends TestCase {
 
     }
 
+    /**
+     * @testdox Saving a read adds a row to the database
+     */
+    function testAddingARow()
+    {
+        $test_read = "CADB";
+        $test_search = "CAD"
+        $post_body = ["read" => $test_read, "search" => $test_search];
+        
+        $response = $this -> call('POST', '/user', $post_body);
+        dd($response);
+
+    }
+
     private function clearDatabase()
     {
         // Can't use TRUNCATE because I'm currently using SQLite
