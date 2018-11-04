@@ -4,12 +4,28 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class ReadTest extends TestCase {
-    /**
-     * The 'read' interface is being scaffolding so this
-     * isn't really TDD'd out but I'd rather have these for later
-     */
-    function testOneIsOne()
+    function setUp()
     {
-        $this -> assertEquals(1,1);
+        parent::setUp();
+        $this -> clearDatabase();
+    }
+
+    /**
+     * @testdox Calling /read returns an array of reads
+     */
+    function testThereIsAListOfReads()
+    {
+        $this->get('/read');
+        $reads = json_decode($this -> response -> getContent());
+
+        $this -> assertTrue(is_array($reads));
+
+    }
+
+    private function clearDatabase()
+    {
+        // Can't use TRUNCATE because I'm currently using SQLite
+        app('db') -> statement("DELETE FROM reads");
+
     }
 }

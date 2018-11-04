@@ -14,3 +14,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+/**
+ * Routes for resource read
+ */
+$router -> get('read', 'ReadsController@all');
+$router -> get('read/{id}', 'ReadsController@get');
+$router -> post('read', 'ReadsController@add');
+$router -> put('read/{id}', 'ReadsController@put');
+$router -> delete('read/{id}', 'ReadsController@remove');
