@@ -7,7 +7,7 @@ class ReadTest extends TestCase {
     function setUp()
     {
         parent::setUp();
-        $this -> clearDatabase();
+       $this -> clearDatabase();
     }
 
     /**
@@ -15,25 +15,55 @@ class ReadTest extends TestCase {
      */
     function testThereIsAListOfReads()
     {
-        $this->get('/read');
-        $reads = json_decode($this -> response -> getContent());
+        $reads = $this -> getAllReads();
 
         $this -> assertTrue(is_array($reads));
-
     }
 
     /**
      * @testdox Saving a read adds a row to the database
      */
     function testAddingARow()
-    {
-        $test_read = "CADB";
-        $test_search = "CAD"
-        $post_body = ["read" => $test_read, "search" => $test_search];
-        
-        $response = $this -> call('POST', '/user', $post_body);
-        dd($response);
+    {    
+        $this -> addReads(1);    
 
+        $number_of_reads = $this -> countAllReads();
+
+        $this -> assertEquals(1, $number_of_reads);
+    }
+
+    /**
+     * @testdox Saving a read adds a row to the database
+     */
+    function testAddingMultipleRows()
+    {    
+        $this -> addReads(3);    
+
+        $number_of_reads = $this -> countAllReads();
+
+        $this -> assertEquals(3, $number_of_reads);
+    }
+
+    private function addReads($number)
+    {
+
+        for($i = 0; $i < $number; $i++) {
+            $reads[] = (new MockRead()) -> toArray();
+        }
+
+
+        $response = $this -> call("POST","read",["reads" => $reads]);
+    }
+
+    private function countAllReads()
+    {
+        return count($this -> getAllReads());
+    }
+
+    private function getAllReads()
+    {
+        $this->get('/read');
+        return json_decode($this -> response -> getContent());
     }
 
     private function clearDatabase()
@@ -41,5 +71,15 @@ class ReadTest extends TestCase {
         // Can't use TRUNCATE because I'm currently using SQLite
         app('db') -> statement("DELETE FROM reads");
 
+    }
+}
+
+class MockRead {
+
+    public $read = "CADB";
+    public $search = "CAD";
+
+    function toArray() {
+        return ["read" => $this -> read, "search" => $this -> search];
     }
 }

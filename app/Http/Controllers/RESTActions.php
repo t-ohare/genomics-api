@@ -22,13 +22,6 @@ trait RESTActions {
         return $this->respond(Response::HTTP_OK, $model);
     }
 
-    public function add(Request $request)
-    {
-        $m = self::MODEL;
-        $this->validate($request, $m::$rules);
-        return $this->respond(Response::HTTP_CREATED, $m::create($request->all()));
-    }
-
     public function put(Request $request, $id)
     {
         $m = self::MODEL;
