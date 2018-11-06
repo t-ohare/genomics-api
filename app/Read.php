@@ -9,7 +9,7 @@ class Read extends Model {
     protected $dates = [];
 
     public static $rules = [
-        "read" => ["required","regex:/^[CAGT]{0,160}$/mi"],
+        "read" => ["required","regex:/^[CAGT]{0,150}$/mi"],
         "search" => ["required", "regex:/^[CAGT]{0,10}$/mi"],
     ];
 
