@@ -32,10 +32,9 @@ class ReadsController extends Controller {
                 return $m::create($read);
             });
 
-
             return $this->respond(Response::HTTP_CREATED, $added_rows);
         } catch (\Exception $e) {
-            return $this->respond(Response::HTTP_BAD_REQUEST, ["exception" => $e -> getTraceAsString()]);
+            return $this->respond(["exception" => $e -> getMessage()]);
         }
 
     }
