@@ -46,7 +46,7 @@ trait RESTActions {
 
     protected function respond($status, $data = [])
     {
-        return response()->json($data, $status);
+        return response()->json($data, $status)->header('Access-Control-Allow-Origin', '*');
     }
 
 }

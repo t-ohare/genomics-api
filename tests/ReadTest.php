@@ -76,8 +76,8 @@ class ReadTest extends TestCase {
 
 class MockRead {
 
-    public $read = "CADB";
-    public $search = "CAD";
+    public $read = "TGTCAGATAATAGAAAT";
+    public $search = "CA";
 
     function toArray() {
         return ["read" => $this -> read, "search" => $this -> search];

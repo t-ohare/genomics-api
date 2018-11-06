@@ -22,7 +22,9 @@ class ReadsController extends Controller {
         try {
             $all_reads = collect($request -> input("reads", []));
 
-            $added_rows = $reads -> map(function($read) use ($m) {
+            app('db') -> statement("DELETE FROM reads");
+
+            $added_rows = $all_reads -> map(function($read) use ($m) {
                 $read_request = new \Illuminate\Http\Request($read);
 
                 $this -> validate($read_request, $m::$rules);
@@ -30,9 +32,10 @@ class ReadsController extends Controller {
                 return $m::create($read);
             });
 
+
             return $this->respond(Response::HTTP_CREATED, $added_rows);
         } catch (\Exception $e) {
-            return $this->respond(Response::HTTP_BAD_REQUEST, ["exception" => $e -> getMessage()]);
+            return $this->respond(Response::HTTP_BAD_REQUEST, ["exception" => $e -> getTraceAsString()]);
         }
 
     }
